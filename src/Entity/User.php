@@ -2,13 +2,22 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
+use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Serializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="UserRepository")
+ * @UniqueEntity("email")
+ * @UniqueEntity("username")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, Serializable
 {
     /**
      * @ORM\Id()
@@ -19,16 +28,19 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\Length(min=2, max=50)
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=5, max=50)
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\Email()
      */
     private $email;
 
@@ -43,6 +55,20 @@ class User implements UserInterface, \Serializable
      */ 
     private $roles;
     
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="products")
+     * @var Collection products
+     */
+    private $product;
+    function getProduct(): Collection {
+        return $this->product;
+    }
+
+        public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+    
     function setRoles($roles) {
         $this->roles = $roles;
     }
@@ -52,7 +78,7 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    public function getUsername(): string
+    public function getUsername()
     {
         return $this->username;
     }
@@ -64,7 +90,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getPassword(): string
+    public function getPassword()
     {
         return $this->password;
     }
@@ -76,7 +102,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }
@@ -88,12 +114,12 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getRegisterDate(): \DateTimeInterface
+    public function getRegisterDate(): DateTimeInterface
     {
         return $this->registerDate;
     }
 
-    public function setRegisterDate(\DateTimeInterface $registerDate): self
+    public function setRegisterDate(DateTimeInterface $registerDate): self
     {
         $this->registerDate = $registerDate;
 
