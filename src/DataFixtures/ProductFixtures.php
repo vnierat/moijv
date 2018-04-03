@@ -16,6 +16,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             $product = new Product();
             $product->setTitle('Mon produit n°'.$i);
             $product->setDescription('description du produit_'.$i);
+            $product->setImage("uploads/500x325.png");
             $manager->persist($product);
             
             $product->setOwner($this->getReference('user'. rand(0, 59)));

@@ -26,7 +26,7 @@ class UserFixtures extends Fixture
         $admin->setPassword(password_hash('admin', PASSWORD_BCRYPT));
         $admin->setEmail('admin@fake.fr');
         $admin->setRegisterDate(new \DateTime('now'));
-        $admin->setRoles('ROLE_ADMIN');
+        $admin->setRoles('ROLE_USER|ROLE_ADMIN');
         $manager->persist($admin);
         $manager->flush();
          // flush valide les requetes et les executes 
