@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
@@ -25,6 +28,18 @@ class Tag
      * @ORM\Column(type="string", length=30, unique=true)
      */
     private $slug;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Product", mappedBy="tags")
+     * @var Collection
+     */
+    
+    private $products;
+    
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -54,4 +69,10 @@ class Tag
 
         return $this;
     }
+    
+    public function getProducts(): Collection {
+        return $this->products;
+    }
+
+
 }

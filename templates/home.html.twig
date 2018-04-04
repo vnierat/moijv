@@ -6,4 +6,13 @@
     <h1>MoiJV</h1>
     <h2>Bienvenue sur la page d'acceuil</h2>
     
+    {% include 'incs/product_list.html.twig' with { 'products' : products } %}
+    
+    {% if products.haveToPaginate%}
+        <div class="d-flex justify-content-center">
+        {{ pagerfanta(products, 'twitter_bootstrap4', {'routeName' : 'product_paginated'})}}  
+        </div>
+    {% endif %}
+    
+    
 {% endblock %}

@@ -58,14 +58,14 @@ class Product
         return $this;
     }
 
-    /*
+    /**
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products")
      * @var Collection
      */
     
     private $tags;
     
-    public function __contruct()
+    public function __construct()
     {
         $this->tags = new ArrayCollection();
     }
@@ -107,6 +107,19 @@ class Product
         $this->image = $image;
         return $this;
     }
+    
+    public function getTags() {
+        return $this->tags;
+    }
 
+    public function addTag($tag)
+    {
+        if($this->tags->contains($tag))
+        {
+            return;
+        }
+        $this->tags->add($tag);
+        $tag->getProducts()->add($this);
+    }
 
 }

@@ -18,8 +18,14 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             $product->setDescription('description du produit_'.$i);
             $product->setImage("uploads/500x325.png");
             $manager->persist($product);
-            
             $product->setOwner($this->getReference('user'. rand(0, 59)));
+            
+            for($j=0 ;$j < rand(0,4); $j++)
+            {
+                $tag = $this->getReference('tag' . rand(0,39));
+                $product->addTag($tag);
+
+            }
         }
 
         $manager->flush();
@@ -29,7 +35,9 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
     {
         return 
         [
-            UserFixtures::class
+            UserFixtures::class,
+            TagFixtures::class
+                
         ];
     }
 }

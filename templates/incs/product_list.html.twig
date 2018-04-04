@@ -1,0 +1,28 @@
+      <!-- Page Features -->
+      <div class="row text-center">
+          {% for product in products %}
+
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="{{asset(product.image)}}" alt="">
+            <div class="card-body">
+              <h4 class="card-title">{{ product.title }}</h4>
+              <p class="card-text">{{ product.description }}</p>
+            </div>
+            <div class="card-footer">
+              <a href="{{path('edit_product', {'id': product.id} )}}" class="btn btn-primary btn-lg">Modifier</a>
+              <a href="{{path('delete_product', {'id': product.id} )}}" class="btn btn-danger btn-lg">Supprimer</a>
+            </div>
+          </div>
+        </div>
+                  
+        {% endfor %}
+        
+        {% if products.haveToPaginate%}
+        <div class="d-flex justify-content-center">
+        {{ pagerfanta(products, 'twitter_bootstrap4', {'routeName' : 'product_paginated'})}}  
+        </div>
+    {% endif %}
+
+      </div>
+      <!-- /.row -->{# empty Twig template #}
