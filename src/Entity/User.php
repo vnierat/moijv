@@ -55,10 +55,10 @@ class User implements UserInterface, Serializable
     private $roles;
     
     /**
-     * @ORM\OneToMany(targetEntity="User", mappedBy="products")
+     * @ORM\OneToMany(targetEntity="User", mappedBy="owner")
      * @var Collection products
      */
-    private $product;
+    private $products;
     function getProduct(): Collection {
         return $this->product;
     }

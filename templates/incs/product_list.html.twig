@@ -1,28 +1,34 @@
-      <!-- Page Features -->
-      <div class="row text-center">
-          {% for product in products %}
+<!-- Page Features -->
+<div class="row text-center">
+    {% for product in products %}
 
         <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-            <img class="card-img-top" src="{{asset(product.image)}}" alt="">
-            <div class="card-body">
-              <h4 class="card-title">{{ product.title }}</h4>
-              <p class="card-text">{{ product.description }}</p>
+            <div class="card">
+                <img class="card-img-top" src="{{asset(product.image)}}" alt="">
+                <div class="card-body">
+                    <h4 class="card-title">{{ product.title }}</h4>
+                    <p class="card-text">{{ product.description }}</p>
+                </div>
+                {% for tag in product.tags %}
+                    <span class="badge badge-pill">#{{ tag.name }}</span>
+                {% endfor %}
+
+                {% if is_granted('ROLE_USER') and product.owner.id == app.user.id %}
+                    <div class="card-footer">
+                        <a href="{{path('edit_product', {'id': product.id} )}}" class="btn btn-primary btn-lg">Modifier</a>
+                        <a href="{{path('delete_product', {'id': product.id} )}}" class="btn btn-danger btn-lg">Supprimer</a>
+                    </div>
+                {% endif %}
             </div>
-            <div class="card-footer">
-              <a href="{{path('edit_product', {'id': product.id} )}}" class="btn btn-primary btn-lg">Modifier</a>
-              <a href="{{path('delete_product', {'id': product.id} )}}" class="btn btn-danger btn-lg">Supprimer</a>
-            </div>
-          </div>
         </div>
-                  
-        {% endfor %}
-        
-        {% if products.haveToPaginate%}
+
+    {% endfor %}
+
+    {% if products.haveToPaginate%}
         <div class="d-flex justify-content-center">
-        {{ pagerfanta(products, 'twitter_bootstrap4', {'routeName' : 'product_paginated'})}}  
+            {{ pagerfanta(products, 'twitter_bootstrap4', {'routeName' : 'home_paginated'})}}  
         </div>
     {% endif %}
 
-      </div>
-      <!-- /.row -->{# empty Twig template #}
+</div>
+<!-- /.row -->{# empty Twig template #}

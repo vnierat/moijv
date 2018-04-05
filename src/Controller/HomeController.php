@@ -17,7 +17,7 @@ class HomeController extends Controller
     
     /**
      * @Route("/home", name="home")
-     * @Route("/home/page/{page}", name="home_paginated")
+     * @Route("/home/{page}", name="home_paginated")
      */
     public function index(ProductRepository $productRepo, $page = 1) // $UserRepo est passer automatiquement en paramatre grace a symfony c'est ce qui s'appelle la dependance, on a donc pas a l'instancier nous-même.
     {

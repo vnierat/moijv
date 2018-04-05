@@ -20,7 +20,7 @@ class ProductController extends Controller
 {
     /**
      * @Route("/", name="product")
-     * @Route("/{page}", name="product_paginated", requirements={"page"="\d+"})
+     * @Route("/{page}", name="product_paginated")
      */
     public function index(ProductRepository $productRepo, $page = 1)
     {
@@ -34,7 +34,6 @@ class ProductController extends Controller
     /**
      * @Route("/delete/{id}", name="delete_product")
      */
-    
     public function deleteProduct(Product $product, ObjectManager $manager)
     {
     if($product->getOwner()->getId() !== $this->getUser()->getId())
