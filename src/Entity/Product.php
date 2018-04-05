@@ -7,9 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
 
 /**
- * @ORM\Entity(repositoryClass="ProductRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  * @UniqueEntity("title")
  */
 class Product
@@ -59,7 +60,7 @@ class Product
     }
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products")
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products", cascade="persist")
      * @var Collection
      */
     
@@ -121,5 +122,11 @@ class Product
         $this->tags->add($tag);
         $tag->getProducts()->add($this);
     }
+
+    public function setTags(Collection $tags) {
+        $this->tags = $tags;
+        return $this;
+    }
+
 
 }

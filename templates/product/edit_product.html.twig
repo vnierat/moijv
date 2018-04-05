@@ -1,5 +1,10 @@
 {% extends "base.html.twig" %}
 
+{% block stylesheets %}
+<link href="{{ asset('css/selectize.css')}}" rel="stylesheet"/>
+{% endblock %}
+
+
 {% block body %}
     
     <div class="row">
@@ -10,4 +15,8 @@
             <a class="btn btn-primary" href="{{path('product')}}">Revenir à mes produits</a>
         </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <script src="{{ asset('js/selectize.js')}}"></script>
 {% endblock %}

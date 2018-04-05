@@ -8,10 +8,13 @@
                 <div class="card-body">
                     <h4 class="card-title">{{ product.title }}</h4>
                     <p class="card-text">{{ product.description }}</p>
+
+                    <div>
+                    {% for tag in product.tags %}
+                        <a href="{{ path('tag', {'slug' : tag.slug})}}" class="badge badge-info badge-pill">#{{ tag.name }}</a>
+                    {% endfor %}
+                    </div>
                 </div>
-                {% for tag in product.tags %}
-                    <span class="badge badge-pill">#{{ tag.name }}</span>
-                {% endfor %}
 
                 {% if is_granted('ROLE_USER') and product.owner.id == app.user.id %}
                     <div class="card-footer">

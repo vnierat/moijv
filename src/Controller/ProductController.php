@@ -20,7 +20,7 @@ class ProductController extends Controller
 {
     /**
      * @Route("/", name="product")
-     * @Route("/{page}", name="product_paginated")
+     * @Route("/{page}", name="product_paginated", requirements={"page":"\d+"})
      */
     public function index(ProductRepository $productRepo, $page = 1)
     {
@@ -79,9 +79,12 @@ class ProductController extends Controller
             {
                 $product->setImage($oldImage);
             }
+            else 
+            {
             $newFileName = md5(uniqid()) . '.' . $image->guessExtension();
             $image->move('uploads', $newFileName);
             $product->setImage('uploads/'.$newFileName);
+            }
             $manager->persist($product);
             $manager->flush();
             return $this->redirectToRoute('product');

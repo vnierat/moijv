@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Tag;
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
-use Zend\Code\Generator\DocBlock\Tag;
+
 
 /**
  * @Route("/tag")
@@ -14,11 +16,16 @@ class TagController extends Controller
 {
     /**
      * @Route("/{slug}/product", name="tag")
+     * @Route("/{slug}/product/{page}", name="tag_paginated")
      */
-    public function product(Tag $tag)
+    
+    public function product(ProductRepository $productRepo, Tag $tag, $page = 1)
     {
+        
+        $tagProductList = $productRepo->findPaginatedByTag($tag, $page);
         return $this->render('tag/product.html.twig', [
-            'controller_name' => 'TagController',
+            'tag' => $tag,
+            'products' => $tagProductList
         ]);
     }
 }
