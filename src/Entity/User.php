@@ -59,6 +59,15 @@ class User implements UserInterface, Serializable
      * @var Collection products
      */
     private $products;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Loan", mappedBy="Loaner")
+     * @var Collection 
+     * 
+     */
+    
+    private $loans;
+    
     function getProduct(): Collection {
         return $this->product;
     }

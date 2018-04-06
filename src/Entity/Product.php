@@ -59,12 +59,21 @@ class Product
         return $this;
     }
 
+    
     /**
-     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products", cascade="persist")
-     * @var Collection
+     *@ORM\ManyToMany(targetEntity="Tag", inversedBy="products", cascade="persist")
+     * @var collection 
      */
     
     private $tags;
+    
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="Loan", mappedBy="product")
+     * @var Loan
+     */
+    
+    private $loan;
     
     public function __construct()
     {

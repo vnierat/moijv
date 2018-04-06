@@ -28,6 +28,7 @@ class TagRepository extends ServiceEntityRepository
     
     public function getCorrespondingTag($tagName)
     {
+        $tagName = trim($tagName);
         $slugify = new Slugify();
         $tagSlug = $slugify->slugify($tagName);
         // SELECT t.* FROM tag as t WHERE slug = :tagSlug LIMIT 1
@@ -40,6 +41,14 @@ class TagRepository extends ServiceEntityRepository
             $tag->setSlug($tagSlug);
         }
         return $tag;
+    }
+    
+    public function searchBySlug($slug)
+    {
+        return $this->createQueryBuilder('t')
+                ->where('t.slug LIKE :slug')
+                ->setParameter('slug', "%$slug%")
+                ->getQuery()->getResult();
     }
 
 //    /**
