@@ -30,7 +30,13 @@ class ProductRepository extends ServiceEntityRepository
                 ->addSelect('u')
                 ->leftJoin('p.tags', 't')
                 ->addSelect('t')
-                ->orderBy('p.id', 'ASC');
+                ->leftJoin('p.loans', 'l')
+                ->where('l.status = :status1')
+                ->orwhere('l.status != :status2')
+                ->orwhere('l.status is NULL')
+                ->setParameter('status1', 'finished')
+                ->setParameter('status2', 'refused')
+                ->orderBy('p.id', 'DESC');
         $pager = new DoctrineORMAdapter($queryBuilder);
         $fanta = new Pagerfanta($pager);
         return $fanta->setMaxPerPage(12)->setCurrentPage($page);
@@ -60,8 +66,17 @@ class ProductRepository extends ServiceEntityRepository
                 ->leftJoin('p.tags', 't2')
                 ->addSelect('t')
                 ->where('t2 = :tag')
+                ->leftJoin('p.loans', 'l')
                 ->setParameter('tag', $tag)
                 ->orderBy('p.id', 'ASC');
+        $orGroup = $queryBuilder->expr()->orX();
+        $orgroup->add($queryBuilder->expr()->equ('l.status', ':status1'));
+        $orgroup->add($queryBuilder->expr()->equ('l.status', ':status12'));
+        $orgroup->add($queryBuilder->expr()->isNull('l.status'));   
+        $queryBuilder->andWhere($orGroup)
+            ->setParameter('status1', 'refused')
+            ->setParameter('status2', 'finished');
+                
         $pager = new DoctrineORMAdapter($queryBuilder);
         $fanta = new Pagerfanta($pager);
         return $fanta->setMaxPerPage(12)->setCurrentPage($page);

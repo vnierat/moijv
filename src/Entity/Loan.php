@@ -35,14 +35,14 @@ class Loan
     private $status;
     
     /**
-     *@ORM\ManyToOne(targetEntity="User", inversedBy="loans")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="loans")
      * @var User
      */
     
     private $loaner;
     
     /**
-     *@ORM\OneToOne(targetEntity="Product", mappedBy="loan")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="loans")
      * @var Product
      */
     
@@ -53,7 +53,7 @@ class Loan
         return $this->id;
     }
 
-    public function getDateStart(): \DateTimeInterface
+    public function getDateStart()
     {
         return $this->date_start;
     }
@@ -65,7 +65,7 @@ class Loan
         return $this;
     }
 
-    public function getDateEnd(): \DateTimeInterface
+    public function getDateEnd()
     {
         return $this->date_end;
     }
@@ -88,4 +88,24 @@ class Loan
 
         return $this;
     }
+    
+    public function getLoaner() {
+        return $this->loaner;
+    }
+
+    public function getProduct() {
+        return $this->product;
+    }
+
+    public function setLoaner(User $loaner) {
+        $this->loaner = $loaner;
+        return $this;
+    }
+
+    public function setProduct(Product $product) {
+        $this->product = $product;
+        return $this;
+    }
+
+
 }

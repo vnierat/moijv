@@ -69,15 +69,16 @@ class Product
     
     /**
      *
-     * @ORM\OneToOne(targetEntity="Loan", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="Loan", mappedBy="product")
      * @var Loan
      */
     
-    private $loan;
+    private $loans;
     
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->loans = new ArrayCollection();
     }
     
     public function getId()
@@ -136,6 +137,17 @@ class Product
         $this->tags = $tags;
         return $this;
     }
+
+    public function getLoans(): Collection {
+        return $this->loans;
+    }
+
+    public function setLoans(Collection $loans) {
+        $this->loans = $loans;
+        return $this;
+    }
+
+
 
 
 }

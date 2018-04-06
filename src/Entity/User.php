@@ -61,7 +61,7 @@ class User implements UserInterface, Serializable
     private $products;
     
     /**
-     * @ORM\OneToMany(targetEntity="Loan", mappedBy="Loaner")
+     * @ORM\OneToMany(targetEntity="Loan", mappedBy="loaner")
      * @var Collection 
      * 
      */
@@ -75,6 +75,7 @@ class User implements UserInterface, Serializable
         public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->loans = ArrayCollection();
     }
     
     function setRoles($roles) {
@@ -166,4 +167,17 @@ class User implements UserInterface, Serializable
             // $this->salt
         ) = unserialize($serialized);
     }
+    
+    public function getLoans(): Collection 
+    {
+        return $this->loans;
+    }
+
+    public function setLoans(Collection $loans) 
+    {
+        $this->loans = $loans;
+        return $this;
+    }
+
+
 }

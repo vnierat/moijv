@@ -21,17 +21,18 @@
                         <a href="{{path('edit_product', {'id': product.id} )}}" class="btn btn-primary btn-lg">Modifier</a>
                         <a href="{{path('delete_product', {'id': product.id} )}}" class="btn btn-danger btn-lg">Supprimer</a>
                     </div>
+                    {% elseif is_granted('ROLE_USER') %}
+                        <div class="card-footer">
+                            <a class="btn btn-success" href="{{ path('add_loan', {'id' : product.id})}}">Emprunter</a>
+                        </div>
+                        
                 {% endif %}
             </div>
         </div>
 
     {% endfor %}
-
-    {% if products.haveToPaginate%}
-        <div class="d-flex justify-content-center">
-            {{ pagerfanta(products, 'twitter_bootstrap4', {'routeName' : 'home_paginated'})}}  
-        </div>
-    {% endif %}
+    
+        
 
 </div>
 <!-- /.row -->{# empty Twig template #}
